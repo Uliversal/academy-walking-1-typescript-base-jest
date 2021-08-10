@@ -6,8 +6,22 @@ describe("MarsRover test", () => {
     expect(state).toBe("0:0:N");
   });
 
-  it("should the rover rotates to Right in 0:0:E", () => {
-    const state = new MarsRover().getState();
+  it("should rotate once to the Right and output 0:0:E", () => {
+    const rover = new MarsRover();
+    rover.command("R");
+    const state = rover.getState();
     expect(state).toBe("0:0:E");
+  });
+
+  it("should rotate 4 times to the Left and output right direction", () => {
+    const rover = new MarsRover();
+    rover.command("L");
+    expect(rover.getState()).toBe("0:0:W");
+    rover.command("L");
+    expect(rover.getState()).toBe("0:0:S");
+    rover.command("L");
+    expect(rover.getState()).toBe("0:0:E");
+    rover.command("L");
+    expect(rover.getState()).toBe("0:0:N");
   });
 });
