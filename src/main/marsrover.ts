@@ -17,6 +17,29 @@ export class MarsRover {
       if (direction === "N") {
         this.state.setDirection("E");
       }
+      if (direction === "E") {
+        this.state.setDirection("S");
+      }
+      if (direction === "S") {
+        this.state.setDirection("W");
+      }
+      if (direction === "W") {
+        this.state.setDirection("N");
+      }
+    } else if (command === "L") {
+      const direction = this.state.getDirection();
+      if (direction === "N") {
+        this.state.setDirection("W");
+      }
+      if (direction === "W") {
+        this.state.setDirection("S");
+      }
+      if (direction === "S") {
+        this.state.setDirection("E");
+      }
+      if (direction === "E") {
+        this.state.setDirection("N");
+      }
     } else {
       throw new Error("Not Implemented");
     }
