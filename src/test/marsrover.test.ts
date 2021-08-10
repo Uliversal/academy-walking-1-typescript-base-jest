@@ -44,10 +44,10 @@ describe("MarsRover test", () => {
     expect(state).toBe("0:1:N");
   });
 
-  it("should take a chain of commands and return the correct ouput ", () => {
+  it("should take a chain of commands and return the correct ouput for 2:3:N", () => {
     const rover = new MarsRover();
-    rover.command("MMM");
+    rover.command("MMRMMLM");
     const state = rover.getState();
-    expect(state).toBe("0:3:N");
+    expect(state).toBe("2:3:N");
   });
 });

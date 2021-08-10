@@ -12,14 +12,17 @@ export class MarsRover {
   }
 
   public command(command: string) {
-    if (command === "R") {
-      this.turnRight();
-    } else if (command === "L") {
-      this.turnLeft();
-    } else if (command === "M") {
-      this.move();
-    } else {
-      throw new Error("Not Implemented");
+    for (let i=0; i < command.length; i++) {
+      let currentCommand = command.charAt(i)
+      if (currentCommand === "R") {
+        this.turnRight();
+      } else if (currentCommand === "L") {
+        this.turnLeft();
+      } else if (currentCommand === "M") {
+        this.move();
+      } else {
+        throw new Error("Not Implemented");
+      }
     }
   }
 
