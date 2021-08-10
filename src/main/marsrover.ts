@@ -1,5 +1,9 @@
 export class MarsRover {
   getState() {
-    throw new Error("Not implementd");
+    return "0:0:N";
+  }
+
+  command() {
+    throw new Error("Not Implemented");
   }
 }
