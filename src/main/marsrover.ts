@@ -13,35 +13,64 @@ export class MarsRover {
 
   public command(command: string) {
     if (command === "R") {
-      const direction = this.state.getDirection();
-      if (direction === "N") {
-        this.state.setDirection("E");
-      }
-      if (direction === "E") {
-        this.state.setDirection("S");
-      }
-      if (direction === "S") {
-        this.state.setDirection("W");
-      }
-      if (direction === "W") {
-        this.state.setDirection("N");
-      }
+      this.turnRight();
     } else if (command === "L") {
-      const direction = this.state.getDirection();
-      if (direction === "N") {
-        this.state.setDirection("W");
-      }
-      if (direction === "W") {
-        this.state.setDirection("S");
-      }
-      if (direction === "S") {
-        this.state.setDirection("E");
-      }
-      if (direction === "E") {
-        this.state.setDirection("N");
-      }
+      this.turnLeft();
+    } else if (command === "M") {
+      this.move();
     } else {
       throw new Error("Not Implemented");
+    }
+  }
+
+  private move() {
+    const direction = this.state.getDirection();
+    const x = this.state.getX();
+    const y = this.state.getY();
+
+    if (direction === "N") {
+      this.state.setY(y + 1);
+    }
+    if (direction === "E") {
+      this.state.setX(x + 1);
+    }
+    if (direction === "S") {
+      this.state.setY(y - 1);
+    }
+    if (direction === "W") {
+      this.state.setX(x - 1);
+    }
+  }
+
+  private turnRight() {
+    const direction = this.state.getDirection();
+    if (direction === "N") {
+      this.state.setDirection("E");
+    }
+    if (direction === "E") {
+      this.state.setDirection("S");
+    }
+    if (direction === "S") {
+      this.state.setDirection("W");
+    }
+    if (direction === "W") {
+      this.state.setDirection("N");
+    }
+  }
+
+  private turnLeft() {
+    const direction = this.state.getDirection();
+    if (direction === "N") {
+      this.state.setDirection("W");
+    }
+    if (direction === "W") {
+      this.state.setDirection("S");
+    }
+    if (direction === "S") {
+      this.state.setDirection("E");
+    }
+    if (direction === "E") {
+      this.state.setDirection("N");
     }
   }
 }

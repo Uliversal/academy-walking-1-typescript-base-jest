@@ -13,8 +13,16 @@ export class State {
     return this.x;
   }
 
+  public setX(x: number): void {
+    this.x = x;
+  }
+
   public getY(): number {
     return this.y;
+  }
+
+  public setY(y: number): void {
+    this.y = y;
   }
 
   public getDirection(): string {

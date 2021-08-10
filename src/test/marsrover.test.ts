@@ -43,4 +43,11 @@ describe("MarsRover test", () => {
     const state = rover.getState();
     expect(state).toBe("0:1:N");
   });
+
+  it("should take a chain of commands and return the correct ouput ", () => {
+    const rover = new MarsRover();
+    rover.command("MMM");
+    const state = rover.getState();
+    expect(state).toBe("0:3:N");
+  });
 });
