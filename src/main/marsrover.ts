@@ -1,23 +1,39 @@
-import { State } from "./state";
+import { Direction, Compass } from "./direction";
+
+const GRID_SIZE_X = 10;
+const GRID_SIZE_Y = 10;
+
+interface IPosition {
+  x: number;
+  y: number;
+}
 
 export class MarsRover {
-  private state: State;
+  private position: IPosition = {
+    x: 0,
+    y: 0,
+  };
+
+  private direction: Direction;
 
   public constructor() {
-    this.state = new State();
+    this.position = { x: 0, y: 0 };
+    this.direction = new Direction();
   }
 
   public getState() {
-    return `${this.state.getX()}:${this.state.getY()}:${this.state.getDirection()}`;
+    return `${this.position.x}:${
+      this.position.y
+    }:${this.direction.getOrientation()}`;
   }
 
   public command(command: string) {
-    for (let i=0; i < command.length; i++) {
-      let currentCommand = command.charAt(i)
+    for (let i = 0; i < command.length; i++) {
+      let currentCommand = command.charAt(i);
       if (currentCommand === "R") {
-        this.turnRight();
+        this.direction.turnRight();
       } else if (currentCommand === "L") {
-        this.turnLeft();
+        this.direction.turnLeft();
       } else if (currentCommand === "M") {
         this.move();
       } else {
@@ -27,53 +43,18 @@ export class MarsRover {
   }
 
   private move() {
-    const direction = this.state.getDirection();
-    const x = this.state.getX();
-    const y = this.state.getY();
-
-    if (direction === "N") {
-      this.state.setY(y + 1);
+    const orientation = this.direction.getOrientation();
+    if (orientation === Compass.N) {
+      this.position.y = (this.position.y + 1 + GRID_SIZE_Y) % GRID_SIZE_Y;
     }
-    if (direction === "E") {
-      this.state.setX(x + 1);
+    if (orientation === "E") {
+      this.position.x = (this.position.x + 1 + GRID_SIZE_X) % GRID_SIZE_X;
     }
-    if (direction === "S") {
-      this.state.setY(y - 1);
+    if (orientation === "S") {
+      this.position.y = (this.position.y - 1 + GRID_SIZE_Y) % GRID_SIZE_Y;
     }
-    if (direction === "W") {
-      this.state.setX(x - 1);
-    }
-  }
-
-  private turnRight() {
-    const direction = this.state.getDirection();
-    if (direction === "N") {
-      this.state.setDirection("E");
-    }
-    if (direction === "E") {
-      this.state.setDirection("S");
-    }
-    if (direction === "S") {
-      this.state.setDirection("W");
-    }
-    if (direction === "W") {
-      this.state.setDirection("N");
-    }
-  }
-
-  private turnLeft() {
-    const direction = this.state.getDirection();
-    if (direction === "N") {
-      this.state.setDirection("W");
-    }
-    if (direction === "W") {
-      this.state.setDirection("S");
-    }
-    if (direction === "S") {
-      this.state.setDirection("E");
-    }
-    if (direction === "E") {
-      this.state.setDirection("N");
+    if (orientation === "W") {
+      this.position.x = (this.position.x - 1 + GRID_SIZE_X) % GRID_SIZE_X;
     }
   }
 }

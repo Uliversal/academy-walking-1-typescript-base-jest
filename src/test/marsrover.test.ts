@@ -40,14 +40,21 @@ describe("MarsRover test", () => {
   it("should move forward on grid from bottom-left and output as 0:1:N", () => {
     const rover = new MarsRover();
     rover.command("M");
-    const state = rover.getState();
-    expect(state).toBe("0:1:N");
+    expect(rover.getState()).toBe("0:1:N");
   });
 
-  it("should take a chain of commands and return the correct ouput for 2:3:N", () => {
-    const rover = new MarsRover();
-    rover.command("MMRMMLM");
-    const state = rover.getState();
-    expect(state).toBe("2:3:N");
-  });
+  it.each([
+    ["MMRMMLM", "2:3:N"],
+    ["MMMMMMMMMM", "0:0:N"],
+    ["LM", "9:0:W"],
+    ["LLM", "0:9:S"],
+    ["RMMMMMMMMMM", "0:0:E"],
+  ])(
+    "should take a chain of commands '%s' and return the correct ouput %s",
+    (command, expectedOuput) => {
+      const rover = new MarsRover();
+      rover.command(command);
+      expect(rover.getState()).toBe(expectedOuput);
+    }
+  );
 });
