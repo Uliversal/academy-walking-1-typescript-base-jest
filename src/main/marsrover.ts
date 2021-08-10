@@ -3,6 +3,12 @@ import { Direction, Compass } from "./direction";
 const GRID_SIZE_X = 10;
 const GRID_SIZE_Y = 10;
 
+enum COMMANDS {
+  R = "R",
+  L = "L",
+  M = "M",
+}
+
 interface IPosition {
   x: number;
   y: number;
@@ -30,11 +36,11 @@ export class MarsRover {
   public command(command: string) {
     for (let i = 0; i < command.length; i++) {
       let currentCommand = command.charAt(i);
-      if (currentCommand === "R") {
+      if (currentCommand === COMMANDS.R) {
         this.direction.turnRight();
-      } else if (currentCommand === "L") {
+      } else if (currentCommand === COMMANDS.L) {
         this.direction.turnLeft();
-      } else if (currentCommand === "M") {
+      } else if (currentCommand === COMMANDS.M) {
         this.move();
       } else {
         throw new Error("Not Implemented");
@@ -47,13 +53,13 @@ export class MarsRover {
     if (orientation === Compass.N) {
       this.position.y = (this.position.y + 1 + GRID_SIZE_Y) % GRID_SIZE_Y;
     }
-    if (orientation === "E") {
+    if (orientation === Compass.E) {
       this.position.x = (this.position.x + 1 + GRID_SIZE_X) % GRID_SIZE_X;
     }
-    if (orientation === "S") {
+    if (orientation === Compass.S) {
       this.position.y = (this.position.y - 1 + GRID_SIZE_Y) % GRID_SIZE_Y;
     }
-    if (orientation === "W") {
+    if (orientation === Compass.W) {
       this.position.x = (this.position.x - 1 + GRID_SIZE_X) % GRID_SIZE_X;
     }
   }
