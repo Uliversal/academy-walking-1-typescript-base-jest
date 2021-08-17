@@ -37,23 +37,18 @@ export class MarsRover {
   }
 
   public turnRight() {
-    if (this.hasDetectedObstacle) {
-      return;
-    }
+    this.hasDetectedObstacle = false;
     this.direction.turnRight();
   }
 
   public turnLeft() {
-    if (this.hasDetectedObstacle) {
-      return;
-    }
+    this.hasDetectedObstacle = false;
     this.direction.turnLeft();
   }
 
   public move() {
-    if (this.hasDetectedObstacle) {
-      return;
-    }
+    this.hasDetectedObstacle = false;
+
     const orientation = this.direction.getOrientation();
     const targetPosition = { x: this.position.x, y: this.position.y };
 
