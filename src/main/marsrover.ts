@@ -1,20 +1,14 @@
+import { IArea } from "./area";
 import { Direction, Compass } from "./direction";
 
-const GRID_SIZE_X = 10;
-const GRID_SIZE_Y = 10;
-
-enum COMMANDS {
-  R = "R",
-  L = "L",
-  M = "M",
-}
-
-interface IPosition {
+export interface IPosition {
   x: number;
   y: number;
 }
 
 export class MarsRover {
+  private area: IArea;
+
   private position: IPosition = {
     x: 0,
     y: 0,
@@ -22,45 +16,65 @@ export class MarsRover {
 
   private direction: Direction;
 
-  public constructor() {
+  private hasDetectedObstacle: boolean;
+
+  public constructor(area: IArea) {
+    this.area = area;
     this.position = { x: 0, y: 0 };
     this.direction = new Direction();
+    this.hasDetectedObstacle = false;
   }
 
   public getState() {
-    return `${this.position.x}:${
-      this.position.y
-    }:${this.direction.getOrientation()}`;
+    return (
+      (this.hasDetectedObstacle ? "O:" : "") +
+      this.position.x +
+      ":" +
+      this.position.y +
+      ":" +
+      this.direction.getOrientation()
+    );
   }
 
-  public command(command: string) {
-    for (let i = 0; i < command.length; i++) {
-      let currentCommand = command.charAt(i);
-      if (currentCommand === COMMANDS.R) {
-        this.direction.turnRight();
-      } else if (currentCommand === COMMANDS.L) {
-        this.direction.turnLeft();
-      } else if (currentCommand === COMMANDS.M) {
-        this.move();
-      } else {
-        throw new Error("Not Implemented");
-      }
+  public turnRight() {
+    if (this.hasDetectedObstacle) {
+      return;
     }
+    this.direction.turnRight();
   }
 
-  private move() {
+  public turnLeft() {
+    if (this.hasDetectedObstacle) {
+      return;
+    }
+    this.direction.turnLeft();
+  }
+
+  public move() {
+    if (this.hasDetectedObstacle) {
+      return;
+    }
     const orientation = this.direction.getOrientation();
+    const targetPosition = { x: this.position.x, y: this.position.y };
+
     if (orientation === Compass.N) {
-      this.position.y = (this.position.y + 1 + GRID_SIZE_Y) % GRID_SIZE_Y;
+      targetPosition.y = this.area.getNewYPosition(this.position.y + 1);
     }
     if (orientation === Compass.E) {
-      this.position.x = (this.position.x + 1 + GRID_SIZE_X) % GRID_SIZE_X;
+      targetPosition.x = this.area.getNewXPosition(this.position.x + 1);
     }
     if (orientation === Compass.S) {
-      this.position.y = (this.position.y - 1 + GRID_SIZE_Y) % GRID_SIZE_Y;
+      targetPosition.y = this.area.getNewYPosition(this.position.y - 1);
     }
     if (orientation === Compass.W) {
-      this.position.x = (this.position.x - 1 + GRID_SIZE_X) % GRID_SIZE_X;
+      targetPosition.x = this.area.getNewXPosition(this.position.x - 1);
     }
+
+    if (this.area.isObstacle(targetPosition)) {
+      this.hasDetectedObstacle = true;
+      return;
+    }
+
+    this.position = targetPosition;
   }
 }
