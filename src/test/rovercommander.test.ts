@@ -32,19 +32,19 @@ describe("RoverCommander test", () => {
 
   it.each([
     ["MMMM", "O:0:2:N"],
-    ["MMMML", "O:0:2:N"],
+    ["MMMML", "0:2:W"],
   ])(
     "should take a chain of commands '%s' and return the rover's position while approaching an obstacle at (0,3) with %s",
-    () => {
+    (command, expectedOuput) => {
       const areaWithObstacles = new AreaFactory().createArea(10, 10, [
         { x: 0, y: 3 },
       ]);
 
       const marsRover = new MarsRover(areaWithObstacles);
       const roverCommander = new RoverCommander();
-      roverCommander.command(marsRover, "MMMM");
+      roverCommander.command(marsRover, command);
 
-      expect(marsRover.getState()).toBe("O:0:2:N");
+      expect(marsRover.getState()).toBe(expectedOuput);
     }
   );
 });
