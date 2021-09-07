@@ -1,5 +1,5 @@
 import { IArea } from "./area";
-import { Direction, Compass } from "./direction";
+import { Direction, Orientation } from "./direction";
 
 export interface IPosition {
   x: number;
@@ -52,16 +52,16 @@ export class MarsRover {
     const orientation = this.direction.getOrientation();
     const targetPosition = { x: this.position.x, y: this.position.y };
 
-    if (orientation === Compass.N) {
+    if (orientation === Orientation.N) {
       targetPosition.y = this.area.getNewYPosition(this.position.y + 1);
     }
-    if (orientation === Compass.E) {
+    if (orientation === Orientation.E) {
       targetPosition.x = this.area.getNewXPosition(this.position.x + 1);
     }
-    if (orientation === Compass.S) {
+    if (orientation === Orientation.S) {
       targetPosition.y = this.area.getNewYPosition(this.position.y - 1);
     }
-    if (orientation === Compass.W) {
+    if (orientation === Orientation.W) {
       targetPosition.x = this.area.getNewXPosition(this.position.x - 1);
     }
 

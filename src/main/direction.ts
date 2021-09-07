@@ -1,4 +1,4 @@
-export enum Compass {
+export enum Orientation {
   N = "N",
   E = "E",
   S = "S",
@@ -6,37 +6,37 @@ export enum Compass {
 }
 
 export class Direction {
-  private orientation: Compass;
+  private orientation: Orientation;
 
   constructor() {
-    this.orientation = Compass.N;
+    this.orientation = Orientation.N;
   }
 
-  public getOrientation(): Compass {
+  public getOrientation(): Orientation {
     return this.orientation;
   }
 
   public turnRight() {
-    if (this.orientation === Compass.N) {
-      this.orientation = Compass.E;
-    } else if (this.orientation === Compass.E) {
-      this.orientation = Compass.S;
-    } else if (this.orientation === Compass.S) {
-      this.orientation = Compass.W;
-    } else if (this.orientation === Compass.W) {
-      this.orientation = Compass.N;
+    if (this.orientation === Orientation.N) {
+      this.orientation = Orientation.E;
+    } else if (this.orientation === Orientation.E) {
+      this.orientation = Orientation.S;
+    } else if (this.orientation === Orientation.S) {
+      this.orientation = Orientation.W;
+    } else if (this.orientation === Orientation.W) {
+      this.orientation = Orientation.N;
     }
   }
 
   public turnLeft() {
-    if (this.orientation === Compass.N) {
-      this.orientation = Compass.W;
-    } else if (this.orientation === Compass.W) {
-      this.orientation = Compass.S;
-    } else if (this.orientation === Compass.S) {
-      this.orientation = Compass.E;
-    } else if (this.orientation === Compass.E) {
-      this.orientation = Compass.N;
+    if (this.orientation === Orientation.N) {
+      this.orientation = Orientation.W;
+    } else if (this.orientation === Orientation.W) {
+      this.orientation = Orientation.S;
+    } else if (this.orientation === Orientation.S) {
+      this.orientation = Orientation.E;
+    } else if (this.orientation === Orientation.E) {
+      this.orientation = Orientation.N;
     }
   }
 }
