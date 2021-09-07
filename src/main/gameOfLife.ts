@@ -13,7 +13,7 @@ export class GameOfLife {
 
   printOutput(width: number, height: number) {
     let output: string[][] = [];
-    for (let x = 0; x < height; x++) {
+    for (let row = 0; row < height; row++) {
       output.push(new Array(width).fill("0"));
     }
     for (const cell of this.cells) {
@@ -33,44 +33,60 @@ export class GameOfLife {
       if (numberOfLiveNeighbours === 2 || numberOfLiveNeighbours === 3) {
         newCells.push(cell);
       }
-      let neighbours : Position[] = [
-        {x: cell.x - 1, y: cell.y + 1}, 
-        {x: cell.x - 1, y: cell.y}, 
-        {x: cell.x - 1, y: cell.y - 1}, 
-        {x: cell.x, y: cell.y + 1}, 
-        {x: cell.x, y: cell.y - 1}, 
-        {x: cell.x + 1, y: cell.y + 1}, 
-        {x: cell.x + 1, y: cell.y}, 
-        {x: cell.x + 1, y: cell.y - 1}, 
-      ];
 
-      
-      
-
+      let neighbours: Position[] = this.getNeighbourCells(cell);
       for (const neighbour of neighbours) {
-        if (this.cells.filter(c => c.x === neighbour.x && c.y === neighbour.y).length === 0 &&
-        newCells.filter(c => c.x === neighbour.x && c.y === neighbour.y).length === 0
+        if (
+          this.isDealCell(neighbour) &&
+          !this.isInListOfCells(neighbour, newCells)
         ) {
           if (this.countLiveNeighbours(neighbour) === 3) {
             newCells.push(neighbour);
           }
         }
       }
-
-    }    
+    }
     this.cells = newCells;
   }
 
   private countLiveNeighbours(cell: Position) {
-    let numberOfLiveNeighbours = this.cells.filter(c => c.x === cell.x && c.y === cell.y).length === 0? 0: -1;
+    let numberOfLiveNeighbours = 0;
     for (const neighbour of this.cells) {
-      if (neighbour.x >= cell.x - 1 &&
+      if (
+        neighbour.x >= cell.x - 1 &&
         neighbour.x <= cell.x + 1 &&
         neighbour.y >= cell.y - 1 &&
-        neighbour.y <= cell.y + 1) {
+        neighbour.y <= cell.y + 1 &&
+        !this.isSameCell(neighbour, cell)
+      ) {
         numberOfLiveNeighbours++;
       }
     }
     return numberOfLiveNeighbours;
+  }
+
+  private isDealCell(cellToCheck: Position) {
+    return !this.isInListOfCells(cellToCheck, this.cells);
+  }
+
+  private isInListOfCells(cellToCheck: Position, cells: Position[]) {
+    return cells.filter((c) => this.isSameCell(cellToCheck, c)).length > 0;
+  }
+
+  private isSameCell(cell1: Position, cell2: Position): boolean {
+    return cell1.x === cell2.x && cell1.y === cell2.y;
+  }
+
+  private getNeighbourCells(cell: Position): Position[] {
+    return [
+      { x: cell.x - 1, y: cell.y + 1 },
+      { x: cell.x - 1, y: cell.y },
+      { x: cell.x - 1, y: cell.y - 1 },
+      { x: cell.x, y: cell.y + 1 },
+      { x: cell.x, y: cell.y - 1 },
+      { x: cell.x + 1, y: cell.y + 1 },
+      { x: cell.x + 1, y: cell.y },
+      { x: cell.x + 1, y: cell.y - 1 },
+    ];
   }
 }
