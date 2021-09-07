@@ -22,7 +22,6 @@ export class GameOfLife {
       }
     }
     const o = output.map((e) => e.join("")).join("\n");
-    console.log(o);
     return o;
   }
 
@@ -30,21 +29,48 @@ export class GameOfLife {
     const newCells: Position[] = [];
 
     for (const cell of this.cells) {
-      let numberOfNeighbours = -1;
-      for (const neighbour of this.cells) {
-        if (
-          neighbour.x >= cell.x - 1 &&
-          neighbour.x <= cell.x + 1 &&
-          neighbour.y >= cell.y - 1 &&
-          neighbour.y <= cell.y + 1
-        ) {
-          numberOfNeighbours++;
-        }
-      }
-      if (numberOfNeighbours === 2 || numberOfNeighbours === 3) {
+      let numberOfLiveNeighbours = this.countLiveNeighbours(cell);
+      if (numberOfLiveNeighbours === 2 || numberOfLiveNeighbours === 3) {
         newCells.push(cell);
       }
-    }
+      let neighbours : Position[] = [
+        {x: cell.x - 1, y: cell.y + 1}, 
+        {x: cell.x - 1, y: cell.y}, 
+        {x: cell.x - 1, y: cell.y - 1}, 
+        {x: cell.x, y: cell.y + 1}, 
+        {x: cell.x, y: cell.y - 1}, 
+        {x: cell.x + 1, y: cell.y + 1}, 
+        {x: cell.x + 1, y: cell.y}, 
+        {x: cell.x + 1, y: cell.y - 1}, 
+      ];
+
+      
+      
+
+      for (const neighbour of neighbours) {
+        if (this.cells.filter(c => c.x === neighbour.x && c.y === neighbour.y).length === 0 &&
+        newCells.filter(c => c.x === neighbour.x && c.y === neighbour.y).length === 0
+        ) {
+          if (this.countLiveNeighbours(neighbour) === 3) {
+            newCells.push(neighbour);
+          }
+        }
+      }
+
+    }    
     this.cells = newCells;
+  }
+
+  private countLiveNeighbours(cell: Position) {
+    let numberOfLiveNeighbours = this.cells.filter(c => c.x === cell.x && c.y === cell.y).length === 0? 0: -1;
+    for (const neighbour of this.cells) {
+      if (neighbour.x >= cell.x - 1 &&
+        neighbour.x <= cell.x + 1 &&
+        neighbour.y >= cell.y - 1 &&
+        neighbour.y <= cell.y + 1) {
+        numberOfLiveNeighbours++;
+      }
+    }
+    return numberOfLiveNeighbours;
   }
 }

@@ -37,4 +37,18 @@ describe("GameOfLife test", () => {
     gameOfLife.nextStep();
     expect(gameOfLife.printOutput(4, 4)).toBe("0000\n0XX0\n0XX0\n0000");
   });
+
+  it("should return a 4x4 grid after one step filled with cells", () => {
+    const gameOfLife = new GameOfLife();
+    gameOfLife.addCell({ x: 1, y: 0 });
+    gameOfLife.addCell({ x: 1, y: 1 });
+    gameOfLife.addCell({ x: 1, y: 2 });
+    gameOfLife.nextStep();
+    expect(gameOfLife.printOutput(3, 3)).toBe("000\nXXX\n000");
+    gameOfLife.nextStep();
+    expect(gameOfLife.printOutput(3, 3)).toBe("0X0\n0X0\n0X0");
+
+  });
+
+
 });
